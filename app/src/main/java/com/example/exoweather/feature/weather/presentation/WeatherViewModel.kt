@@ -1,7 +1,6 @@
 package com.example.exoweather.feature.weather.presentation
 
 import android.os.CountDownTimer
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -30,8 +29,15 @@ class WeatherViewModel @Inject constructor(
     // Data
     ///////////////////////////////////////////////////////////////////////////
 
+    private val weathers = mutableListOf<Weather>()
+    private val loadingMessages = listOf(
+        "NOus téléchargeons les données...",
+        "C'est presque fini...",
+        "Plus que quelques secondes avant d'avoir le résultat..."
+    )
+
     private var tick: Int = 0
-    private var weathers = mutableListOf<Weather>()
+    private var loadingMessageIndex: Int = 0
     private var timer = object : CountDownTimer(SIXTY_SECONDS_IN_MILLIS, ONE_SECOND_IN_MILLIS) {
         override fun onTick(millisUntilFinished: Long) {
             // Set progress
@@ -40,6 +46,12 @@ class WeatherViewModel @Inject constructor(
                 isLoading = true,
                 progress = currentProgress
             )
+
+            // Display Loading Message
+            if (tick % 6 == 0) {
+                state = state.copy(loadingMessage = loadingMessages[loadingMessageIndex % 3])
+                loadingMessageIndex++
+            }
 
             // Load Weather
             when (tick) {
@@ -54,6 +66,7 @@ class WeatherViewModel @Inject constructor(
 
         override fun onFinish() {
             tick = 0
+            loadingMessageIndex = 0
             state = state.copy(
                 weathers = weathers,
                 isLoading = false,
@@ -109,6 +122,7 @@ class WeatherViewModel @Inject constructor(
         timer.cancel()
         tick = 0
         weathers.clear()
+        loadingMessageIndex = 0
     }
 
     ///////////////////////////////////////////////////////////////////////////

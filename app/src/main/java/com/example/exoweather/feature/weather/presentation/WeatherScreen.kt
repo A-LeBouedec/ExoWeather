@@ -34,12 +34,19 @@ fun WeatherScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (state.isLoading) {
+            // Loading Message
+            Text(
+                text = state.loadingMessage,
+                textAlign = TextAlign.Center
+            )
+            // ProgressBar
             ProgressBar(
                 progress = state.progress,
                 title = "Discussion avec votre banquier météorologue, pas commode"
             )
         } else {
             if (state.errorMessage != null) {
+                // Error Message
                 Text(
                     text = state.errorMessage,
                     textAlign = TextAlign.Center,
@@ -58,7 +65,6 @@ fun WeatherScreen(
                     }
                 }
             }
-
             // Try again button
             Button(onClick = { viewModel.startProgress() }) {
                 Text(text = "recommencer")
