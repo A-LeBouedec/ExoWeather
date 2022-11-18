@@ -1,5 +1,7 @@
 package com.example.exoweather.feature.weather.data.remote.dto
 
+import com.example.exoweather.feature.weather.domain.model.Weather
+
 data class WeatherDto(
     val base: String,
     val cloudsDto: CloudsDto,
@@ -14,4 +16,12 @@ data class WeatherDto(
     val visibility: Int,
     val weather: List<WeatherDataDto>,
     val wind: WindDto
-)
+) {
+    fun toWeather(): Weather {
+        return Weather(
+            cityName = name,
+            temperature = main.temp,
+            weatherDescription = weather.first().description
+        )
+    }
+}
