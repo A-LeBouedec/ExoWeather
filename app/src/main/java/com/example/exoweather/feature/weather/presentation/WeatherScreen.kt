@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
+import com.example.exoweather.feature.weather.presentation.component.ProgressBar
 
 @Composable
 fun WeatherScreen(
@@ -18,6 +19,11 @@ fun WeatherScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // TODO
         Text(text = "texte")
+        ProgressBar(
+            progress = 0.4f,
+            title = "Discussion avec votre banquier météorologue, pas commode"
+        )
     }
 }
