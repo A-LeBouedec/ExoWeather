@@ -1,6 +1,6 @@
 package com.example.exoweather.feature.weather.data.remote.dto
 
-data class Sys(
+data class SysDto(
     val country: String,
     val id: Int,
     val sunrise: Int,

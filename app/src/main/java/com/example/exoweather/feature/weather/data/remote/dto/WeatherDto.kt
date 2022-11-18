@@ -2,16 +2,16 @@ package com.example.exoweather.feature.weather.data.remote.dto
 
 data class WeatherDto(
     val base: String,
-    val clouds: Clouds,
+    val cloudsDto: CloudsDto,
     val cod: Int,
-    val coord: Coord,
+    val coordDto: CoordDto,
     val dt: Int,
     val id: Int,
-    val main: Main,
+    val main: MainDto,
     val name: String,
-    val sys: Sys,
+    val sys: SysDto,
     val timezone: Int,
     val visibility: Int,
-    val weather: List<Weather>,
-    val wind: Wind
+    val weather: List<WeatherDataDto>,
+    val wind: WindDto
 )
