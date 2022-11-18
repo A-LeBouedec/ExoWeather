@@ -1,6 +1,8 @@
 package com.example.exoweather.di
 
 import com.example.exoweather.feature.weather.data.remote.api.OpenWeatherApi
+import com.example.exoweather.feature.weather.domain.repository.WeatherRepository
+import com.example.exoweather.feature.weather.domain.usecase.GetWeatherUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,5 +24,11 @@ object AppModule {
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
             .create()
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetWeatherUseCase(repository: WeatherRepository): GetWeatherUseCase {
+        return GetWeatherUseCase(repository)
     }
 }
