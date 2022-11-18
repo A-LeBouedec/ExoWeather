@@ -1,11 +1,14 @@
 package com.example.exoweather.feature.weather.presentation
 
 import android.os.CountDownTimer
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.exoweather.common.domain.util.Response
+import com.example.exoweather.feature.weather.domain.model.Weather
 import com.example.exoweather.feature.weather.domain.usecase.GetWeatherUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -27,6 +30,8 @@ class WeatherViewModel @Inject constructor(
     // Data
     ///////////////////////////////////////////////////////////////////////////
 
+    private var tick: Int = 0
+    private var weathers = mutableListOf<Weather>()
     private var timer = object : CountDownTimer(SIXTY_SECONDS_IN_MILLIS, ONE_SECOND_IN_MILLIS) {
         override fun onTick(millisUntilFinished: Long) {
             // Set progress
@@ -35,11 +40,24 @@ class WeatherViewModel @Inject constructor(
                 isLoading = true,
                 progress = currentProgress
             )
+
+            // Load Weather
+            when (tick) {
+                0 -> loadWeather("Rennes")
+                10 -> loadWeather("Paris")
+                20 -> loadWeather("Nantes")
+                30 -> loadWeather("Bordeaux")
+                40 -> loadWeather("Lyon")
+            }
+            tick++
         }
 
         override fun onFinish() {
+            tick = 0
             state = state.copy(
+                weathers = weathers,
                 isLoading = false,
+                errorMessage = null,
                 progress = 1f
             )
         }
@@ -59,6 +77,7 @@ class WeatherViewModel @Inject constructor(
 
     fun startProgress() {
         viewModelScope.launch {
+            resetData()
             timer.start()
         }
     }
@@ -66,6 +85,31 @@ class WeatherViewModel @Inject constructor(
     ///////////////////////////////////////////////////////////////////////////
     // Private Functions
     ///////////////////////////////////////////////////////////////////////////
+
+    private fun loadWeather(city: String) {
+        viewModelScope.launch {
+            when (val result = getWeatherUseCase.execute(city)) {
+                is Response.Success -> {
+                    result.data?.let { weathers.add(it) }
+                }
+                is Response.Error -> {
+                    resetData()
+                    state = state.copy(
+                        weathers = weathers,
+                        isLoading = false,
+                        errorMessage = result.message,
+                        progress = 0f
+                    )
+                }
+            }
+        }
+    }
+
+    private fun resetData() {
+        timer.cancel()
+        tick = 0
+        weathers.clear()
+    }
 
     ///////////////////////////////////////////////////////////////////////////
     // Companion Object
