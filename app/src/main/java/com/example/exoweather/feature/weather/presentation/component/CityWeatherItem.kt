@@ -42,7 +42,7 @@ fun CityWeatherItem(
                 .padding(horizontal = 8.dp)
         ) {
             Text(text = cityWeather.cityName)
-            Text(text = cityWeather.temperature.toString())
+            Text(text = cityWeather.temperature)
         }
     }
 }

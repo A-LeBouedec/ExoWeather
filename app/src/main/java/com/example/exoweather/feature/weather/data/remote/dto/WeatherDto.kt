@@ -1,5 +1,6 @@
 package com.example.exoweather.feature.weather.data.remote.dto
 
+import com.example.exoweather.common.domain.round
 import com.example.exoweather.feature.weather.domain.model.Weather
 
 data class WeatherDto(
@@ -20,9 +21,13 @@ data class WeatherDto(
     fun toWeather(): Weather {
         return Weather(
             cityName = name,
-            temperature = main.temp,
+            temperature = "${(main.temp - ABSOLUTE_TEMPERATURE).round(2)}°C",
             weatherDescription = weather.first().description,
             weatherIcon = weather.first().icon
         )
+    }
+
+    companion object {
+        private const val ABSOLUTE_TEMPERATURE = 273.15
     }
 }
