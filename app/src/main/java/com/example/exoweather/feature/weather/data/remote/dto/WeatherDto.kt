@@ -21,6 +21,8 @@ data class WeatherDto(
     fun toWeather(): Weather {
         return Weather(
             cityName = name,
+            // Check for Units of measurement and use correct units in request
+            // https://openweathermap.org/current#data
             temperature = "${(main.temp - ABSOLUTE_TEMPERATURE).round(2)}°C",
             weatherDescription = weather.first().description,
             weatherIcon = weather.first().icon

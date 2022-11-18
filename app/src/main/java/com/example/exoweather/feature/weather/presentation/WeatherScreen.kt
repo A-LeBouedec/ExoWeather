@@ -23,7 +23,7 @@ import com.example.exoweather.feature.weather.presentation.component.ProgressBar
 
 @Composable
 fun WeatherScreen(
-    navController: NavController,
+    navController: NavController, // For a next feature, like cityWeatherDetail
     viewModel: WeatherViewModel = hiltViewModel()
 ) {
     val state = viewModel.state
