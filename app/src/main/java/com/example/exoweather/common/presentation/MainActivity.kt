@@ -14,7 +14,9 @@ import com.example.exoweather.common.presentation.screen.Screen
 import com.example.exoweather.common.presentation.ui.theme.ExoWeatherTheme
 import com.example.exoweather.feature.home.presentation.HomeScreen
 import com.example.exoweather.feature.weather.presentation.WeatherScreen
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
