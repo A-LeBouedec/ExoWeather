@@ -1,4 +1,4 @@
-package com.example.exoweather.ui.theme
+package com.example.exoweather.common.presentation.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes
