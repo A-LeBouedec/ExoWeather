@@ -21,7 +21,8 @@ data class WeatherDto(
         return Weather(
             cityName = name,
             temperature = main.temp,
-            weatherDescription = weather.first().description
+            weatherDescription = weather.first().description,
+            weatherIcon = weather.first().icon
         )
     }
 }
